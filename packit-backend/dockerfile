@@ -9,7 +9,9 @@ COPY gradlew .
 COPY gradle gradle
 
 # Copy the application code
-COPY . .
+COPY src src
+COPY build.gradle .
+COPY settings.gradle .
 
 # Build the application with Gradle
 RUN ./gradlew clean build
