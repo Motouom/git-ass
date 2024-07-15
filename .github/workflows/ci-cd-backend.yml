@@ -7,7 +7,7 @@ on:
     tags-ignore: 
       - 'v*'
     paths:
-      - 'Packit-backend/**'
+      - 'packit-backend/**'
       - '.github/workflows/ci-cd-backend.yml'
 
 env:
@@ -22,7 +22,7 @@ jobs:
       - name: Clone the project
         uses: actions/checkout@v4
         with:
-          path: Packit-backend
+          path: packit-backend
       - name: Setup Java 17 (GraalVM)
         uses: actions/setup-java@v4
         with:
@@ -42,8 +42,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Packit-backend
-          path: Packit-backend/build/libs/*.jar
+          name: packit-backend
+          path: packit-backend/build/libs/*.jar
 
   docker-build:
     needs:
@@ -58,12 +58,12 @@ jobs:
       - name: Clone the project
         uses: actions/checkout@v4
         with:
-          path: Packit-backend
+          path: packit-backend
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: Packit-backend
-          path: Packit-backend/build/libs
+          name: packit-backend
+          path: packit-backend/build/libs
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -86,7 +86,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
-          context: ./Packit-backend
+          context: ./packit-backend
           push: "${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
