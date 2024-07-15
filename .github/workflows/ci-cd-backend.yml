@@ -70,7 +70,7 @@ jobs:
         with:
           string: ${{ env.IMAGE_NAME}}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Extract metadata (tags, labels) for Docker 
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -82,4 +82,4 @@ jobs:
           context: ./Packit-backend
           push: "${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}"
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta.outputs.labels }} 

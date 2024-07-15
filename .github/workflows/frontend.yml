@@ -93,11 +93,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: string
-        uses: AsZc/change-string-case-action@v6
+        uses: AsZc/change-string-case-action@v6 
         with:
           string: ${{ env.IMAGE_NAME }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Extract metadata (tags, labels) for Docker 
         id: meta
         uses: docker/metadata-action@v5
         with:
