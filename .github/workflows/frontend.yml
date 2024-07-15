@@ -1,4 +1,4 @@
-name: Build, deploy and docker build frontend
+name: Build, deploy and docker-build PackIt frontend
 
 on:
     push:
