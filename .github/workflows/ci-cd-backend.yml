@@ -30,7 +30,7 @@ jobs:
           java-version: '17'
       - name: Gradle build
         run: |
-          cd ../Packit-backend
+          cd git-ass/packit-backend
             # List the contents of the directory to ensure gradlew is present
           ls -l
 
