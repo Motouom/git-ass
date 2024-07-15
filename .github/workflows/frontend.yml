@@ -10,7 +10,7 @@ on:
           - 'PackIt-frontend/**'
           - '.github/workflows/frontend.yml'
 
-    pull_request:
+    pull_request: 
         branches:
           - '**'
         paths:
