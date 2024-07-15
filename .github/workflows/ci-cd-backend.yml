@@ -1,0 +1,61 @@
+name: Backend CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Debug step to list the contents of the repository
+      - name: List repository contents
+        run: ls -la
+
+      # Debug step to list the contents of the backend directory
+      - name: List backend directory contents
+        run: ls -la ./packit-backend
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+
+      # Install backend dependencies
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./packit-backend
+
+      # Run backend tests
+      - name: Run tests
+        run: npm test
+        working-directory: ./packit-backend
+
+      # Build the backend project
+      - name: Build project
+        run: npm run build
+        working-directory: ./packit-backend
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Log in to DockerHub using GitHub Secrets
+      - name: Log in to DockerHub
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u "${{ github.actor }}" --password-stdin
+
+      # Build and push Docker image
+      - name: Build and push Docker image
+        run: |
+          docker buildx build --push --tag ${{ github.actor }}/backend-project:latest ./packit-backend
