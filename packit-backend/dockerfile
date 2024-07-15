@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy the Gradle wrapper
 COPY gradlew ./
-COPY gradle ./gradle 
+COPY gradle ./gradle  
 
 
 # Copy the application code
