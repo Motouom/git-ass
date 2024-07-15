@@ -9,7 +9,7 @@ COPY package.json .
 COPY package-lock.json .
 COPY public public
 COPY src src
-COPY vite.config.js .
+COPY vite.config.ts .
 
 # Install dependencies
 RUN npm ci
