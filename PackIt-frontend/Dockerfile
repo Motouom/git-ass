@@ -1,23 +1,30 @@
-# Use the official Node.js runtime as the base image
-FROM node:18 as build
+# Use the Node.js base image
+FROM node:18-alpine AS builder
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Copy the application code
+COPY package.json .
+COPY package-lock.json .
+COPY public public
+COPY src src
+COPY vite.config.js .
 
-# Copy the entire application code to the container
-COPY . .
+# Install dependencies
+RUN npm ci
 
-# Use Nginx as the production server
+# Build the application with Vite
+RUN npm run build
+
+# Use the Nginx base image for the production stage
 FROM nginx:stable-alpine
 
-# Copy the built React app to Nginx's web server directory
-COPY --from=build /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+# Copy the built assets from the builder stage
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Expose port 80 for the Nginx server
+# Expose the port
 EXPOSE 80
 
-# Start Nginx when the container runs
+# Start the Nginx server
 CMD ["nginx", "-g", "daemon off;"]
