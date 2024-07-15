@@ -3,12 +3,12 @@ name: Build PackIt Backend
 on:
   push:
     branches:
-      - '**'
-    tags-ignore:
+      - '**' 
+    tags-ignore: 
       - 'v*'
     paths:
-      - 'Packit-backend/**'
-      - '.github/workflows/backend.yml'
+      - 'packit-backend/**'
+      - '.github/workflows/ci-cd-backend.yml'
 
 env:
   REGISTRY: ghcr.io
@@ -22,24 +22,28 @@ jobs:
       - name: Clone the project
         uses: actions/checkout@v4
         with:
-          path: Packit-backend
+          path: packit-backend
       - name: Setup Java 17 (GraalVM)
         uses: actions/setup-java@v4
         with:
           distribution: 'adopt-openj9'
           java-version: '17'
-      - name: Install Gradle
-        uses: gradle-action/gradle-build-action@v2
-        with:
-          gradle-version: 8.0
       - name: Gradle build
         run: |
-          ./gradlew clean build 
+          cd ./packit-backend
+            # List the contents of the directory to ensure gradlew is present
+          ls -l
+
+          #  Add execute permissions to gradlew if necessary
+          chmod +x ./gradlew
+
+          # Run Gradle clean and build
+          ./gradlew clean build -x
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Packit-backend
-          path: Packit-backend/build/libs/*.jar
+          name: packit-backend
+          path: packit-backend/build/libs/*.jar
 
   docker-build:
     needs:
@@ -54,12 +58,12 @@ jobs:
       - name: Clone the project
         uses: actions/checkout@v4
         with:
-          path: Packit-backend
+          path: packit-backend
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: Packit-backend
-          path: Packit-backend/build/libs
+          name: packit-backend
+          path: packit-backend/build/libs
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -75,14 +79,14 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v5 
         with:
           images: ${{ env.REGISTRY }}/${{ steps.lowercase_name.outputs.lowercase }}
 
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
-          context: ./Packit-backend
+          context: ./packit-backend
           push: "${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
