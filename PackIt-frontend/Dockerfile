@@ -9,6 +9,7 @@ COPY package.json .
 COPY package-lock.json .
 COPY public public
 COPY src src
+COPY tsconfig.json .
 COPY vite.config.ts .
 
 # Install dependencies
