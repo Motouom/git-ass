@@ -7,7 +7,7 @@ on:
     tags-ignore:
       - 'v*'
     paths:
-      - 'PackIt-backend/**'
+      - 'Packit-backend/**'
       - '.github/workflows/build-service.yml'
 
 env:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: PackIt-backend
+        working-directory: Packit-backend
 
     steps:
       - name: Clone the project
@@ -34,8 +34,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PackIt-backend
-          path: PackIt-backend/target/*.jar
+          name: Packit-backend
+          path: Packit-backend/target/*.jar
 
   docker-build:
     needs:
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: PackIt-backend
+        working-directory: Packit-backend
 
     permissions:
       contents: read
@@ -55,8 +55,8 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: PackIt-backend
-          path: PackIt-backend/target
+          name: Packit-backend
+          path: Packit-backend/target
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -79,7 +79,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
-          context: ./PackIt-backend
+          context: ./Packit-backend
           push: "${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
