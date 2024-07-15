@@ -8,14 +8,14 @@ on:
           - 'v*'
         paths:
           - 'PackIt-frontend/**'
-          - '.github/workflows/build-deploy-and-docker-build.yml'
+          - '.github/workflows/frontend.yml'
 
     pull_request:
         branches:
           - '**'
         paths:
           - 'PackIt-frontend/**'
-          - '.github/workflows/build-deploy-and-docker-build.yml'
+          - '.github/workflows/frontend.yml'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-frontend
