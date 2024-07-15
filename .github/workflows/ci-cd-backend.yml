@@ -13,6 +13,8 @@ jobs:
       # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+            node-version: '20'
 
       # Debug step to list the contents of the repository
       - name: List repository contents
@@ -26,7 +28,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 'lts/*'
+          node-version: '20'
 
       # Install backend dependencies
       - name: Install dependencies
@@ -50,6 +52,8 @@ jobs:
       # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+            node-version: '20'
 
       # Log in to DockerHub using GitHub Secrets
       - name: Log in to DockerHub
