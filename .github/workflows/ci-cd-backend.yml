@@ -3,7 +3,7 @@ name: Build PackIt Backend
 on:
   push:
     branches:
-      - '**'
+      - '**' 
     tags-ignore: 
       - 'v*'
     paths:
@@ -72,7 +72,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v5 
         with:
           images: ${{ env.REGISTRY }}/${{ steps.lowercase_name.outputs.lowercase }}
 
