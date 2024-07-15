@@ -1,35 +1,50 @@
-version: '3.8'
+version: '4.1'
 
 services:
 
-  backend:
+  api:
     build:
-      context: .
+      context: ./Packit-backend
       dockerfile: Dockerfile
-      target: build-backend
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/myapp
-      - SPRING_DATASOURCE_USERNAME=myapp
-      - SPRING_DATASOURCE_PASSWORD=myapp
+    ports:
+      - "8080:8080"
     depends_on:
-      - db
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/postgres"
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_PROFILES_ACTIVE: prod
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        order: rolling-update
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
   frontend:
     build:
-      context: .
+      context: ./Packit-frontend
       dockerfile: Dockerfile
-      target: build-frontend
     ports:
-      - 3000:80
-
-  db:
-    image: postgres:14
+      - "3000:80"
     environment:
-      - POSTGRES_DB=myapp
-      - POSTGRES_USER=myapp
-      - POSTGRES_PASSWORD=myapp
-    volumes:
-      - db-data:/var/lib/postgresql/data
+      - REACT_APP_BACKEND_URL=http://api:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        order: rolling-update
 
 volumes:
-  db-data:
+  postgres: {}
