@@ -30,7 +30,7 @@ jobs:
           java-version: '17'
       - name: Gradle build
         run: |
-          cd ./Packit-backen
+          cd ./Packit-backend
           gradlew clean build
       - name: Upload artifact
         uses: actions/upload-artifact@v4
