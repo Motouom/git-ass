@@ -1,10 +1,10 @@
-name: Build PackIt Backend
+name: Build Backend
 
 on:
   push:
     branches:
-      - '**' 
-    tags-ignore: 
+      - '**'
+    tags-ignore:
       - 'v*'
     paths:
       - 'packit-backend/**'
@@ -17,28 +17,33 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+    defaults:
+      run:
+        working-directory: packit-backend
+
     steps:
       - name: Clone the project
         uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
-          path: packit-backend
-      - name: Setup Java 17 (GraalVM)
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Setup GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          graalvm-version: '22.1.0'
+          java-version: '17'
+      - name: Setup Kotlin
         uses: actions/setup-java@v4
         with:
-          distribution: 'adopt-openj9'
+          distribution: 'temurin'
           java-version: '17'
-      - name: Gradle build
-        run: |
-          cd ./packit-backend
-            # List the contents of the directory to ensure gradlew is present
-          ls -l
-
-          #  Add execute permissions to gradlew if necessary
-          chmod +x ./gradlew
-
-          # Run Gradle clean and build
-          ./gradlew clean build
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: '7.2'
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -49,7 +54,10 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
-    
+    defaults:
+      run:
+        working-directory: packit-backend
+
     permissions:
       contents: read
       packages: write
@@ -57,8 +65,6 @@ jobs:
     steps:
       - name: Clone the project
         uses: actions/checkout@v4
-        with:
-          path: packit-backend
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -75,11 +81,11 @@ jobs:
       - id: lowercase_name
         uses: ASzc/change-string-case-action@v6
         with:
-          string: ${{ env.IMAGE_NAME}}
+          string: ${{ env.IMAGE_NAME }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5 
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ steps.lowercase_name.outputs.lowercase }}
 
