@@ -31,8 +31,8 @@ jobs:
       - name: Gradle build
         run: |
           cd ./Packit-backend
-          # List the contents of the directory to ensure gradlew is present
-          ls -la
+            # List the contents of the directory to ensure gradlew is present
+          ls -l
 
           #  Add execute permissions to gradlew if necessary
           chmod +x ./gradlew
