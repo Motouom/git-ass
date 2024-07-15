@@ -5,7 +5,7 @@ on:
     branches:
       - '**'
     tags-ignore:
-      - 'v*' 
+      - 'v*'
     paths:
       - 'Packit-backend/**'
       - '.github/workflows/ci-cd-backend.yml'
@@ -29,9 +29,9 @@ jobs:
           distribution: 'adopt-openj9'
           java-version: '17'
       - name: Gradle build
-        run: ./gradlew clean build
-        working-directory: Packit-backend
-
+        run: |
+          cd Packit-backend
+          ./gradlew clean build
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -70,7 +70,7 @@ jobs:
         with:
           string: ${{ env.IMAGE_NAME}}
 
-      - name: Extract metadata (tags, labels) for Docker 
+      - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -82,4 +82,4 @@ jobs:
           context: ./Packit-backend
           push: "${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}"
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }} 
+          labels: ${{ steps.meta.outputs.labels }}

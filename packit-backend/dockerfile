@@ -1,85 +1,24 @@
-name: Build PackIt Backend
+# Use the GraalVM base image
+FROM ghcr.io/graalvm/graalvm-ce:22.3.2 AS builder
 
-on:
-  push:
-    branches:
-      - '**'
-    tags-ignore:
-      - 'v*'
-    paths:
-      - 'Packit-backend/**'
-      - '.github/workflows/ci-cd-backend.yml'
+# Set the working directory
+WORKDIR /app
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-backend
+# Copy the Gradle wrapper
+COPY gradlew .
+COPY gradle gradle
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Clone the project
-        uses: actions/checkout@v4
-        with:
-          path: Packit-backend
-      - name: Setup Java 17 (GraalVM)
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'adopt-openj9'
-          java-version: '17'
-      - name: Gradle build
-        run: |
-          cd Packit-backend
-          ./gradlew clean build
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Packit-backend
-          path: Packit-backend/build/libs/*.jar
+# Copy the application code
+COPY . .
 
-  docker-build:
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    
-    permissions:
-      contents: read
-      packages: write
+# Build the application with Gradle
+RUN gradlew clean build
 
-    steps:
-      - name: Clone the project
-        uses: actions/checkout@v4
-        with:
-          path: Packit-backend
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: Packit-backend
-          path: Packit-backend/build/libs
+# Use the lightweight Distroless base image
+FROM gcr.io/distroless/java17:nonroot
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+# Copy the built JAR file from the builder stage
+COPY --from=builder /app/build/libs/*.jar /app/application.jar
 
-      - id: lowercase_name
-        uses: ASzc/change-string-case-action@v6
-        with:
-          string: ${{ env.IMAGE_NAME}}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ steps.lowercase_name.outputs.lowercase }}
-
-      - name: Build and push image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./Packit-backend
-          push: "${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}"
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+# Set the entry point
+ENTRYPOINT ["java", "-jar", "/app/application.jar"]
