@@ -8,7 +8,8 @@ plugins {
 group = "com.packit"
 version = "0.0.1-SNAPSHOT"
 
-java {
+
+java { 
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }

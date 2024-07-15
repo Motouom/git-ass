@@ -8,6 +8,7 @@ WORKDIR /app
 COPY gradlew ./
 COPY gradle ./gradle
 
+
 # Copy the application code
 COPY . .
 
