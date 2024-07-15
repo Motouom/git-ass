@@ -3,8 +3,8 @@ name: Build PackIt Backend
 on:
   push:
     branches:
-      - '**' 
-    tags-ignore: 
+      - '**'
+    tags-ignore:
       - 'v*'
     paths:
       - 'Packit-backend/**'
@@ -28,10 +28,13 @@ jobs:
         with:
           distribution: 'adopt-openj9'
           java-version: '17'
+      - name: Install Gradle
+        uses: gradle-action/gradle-build-action@v2
+        with:
+          gradle-version: 8.0
       - name: Gradle build
         run: |
-          cd ./Packit-backend
-          sdk install gradle 8.9
+          cd Packit-backend
           ./gradlew clean build
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -73,7 +76,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5 
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ steps.lowercase_name.outputs.lowercase }}
 
