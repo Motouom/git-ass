@@ -5,12 +5,12 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Copy the application code
-COPY package.json .
-COPY package-lock.json .
-COPY public public
-COPY src src
-COPY tsconfig.json .
-COPY vite.config.ts .
+COPY ./package.json .
+COPY ./package-lock.json .
+COPY ./public public
+COPY ./src src
+COPY ./tsconfig.json .
+COPY ./vite.config.ts .
 
 # Install dependencies
 RUN npm ci
