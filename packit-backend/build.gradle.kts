@@ -20,7 +20,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.15") // Updated SpringDoc version
-    implementation("io.r2dbc:r2dbc-postgresql:0.8.8.RELEASE") // Use stable R2DBC PostgreSQL version
+    implementation("org.postgresql:r2dbc-postgresql:1.0.5.RELEASE")    
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 }
