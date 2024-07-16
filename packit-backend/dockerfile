@@ -12,7 +12,6 @@ COPY gradle ./gradle
 # Copy the application code
 COPY . .
 
-sudo apt-get update && sudo apt-get install gradle
 # Build the application with Gradle
 RUN gradle clean build
 
