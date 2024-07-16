@@ -1,13 +1,11 @@
-package com.packit.packit_backend
+package com.packit.PackIt_backend
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class PackitBackendApplication{
-    // Your application's main class goes here...
-}
+class PackItBackendApplication
 
 fun main(args: Array<String>) {
-    runApplication<PackitBackendApplication>(*args)
+	runApplication<PackItBackendApplication>(*args)
 }

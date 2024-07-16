@@ -1,2 +1,1 @@
-rootProject.name = "packit-backend"
-  
+rootProject.name = "PackIt-backend"
