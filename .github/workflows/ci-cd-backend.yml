@@ -52,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: packit-backend
-          path: ./build/libs
+          path: packit-backend/packit-backend/build/libs
 
   docker-build:
     needs:
