@@ -46,7 +46,7 @@ jobs:
         run: ./gradlew clean build -x test --warning-mode all
         
       - name: List contents of build/libs directory
-        run: ls -la packit-backend
+        run: ls -la
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
