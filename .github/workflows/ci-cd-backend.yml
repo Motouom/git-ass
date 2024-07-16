@@ -39,7 +39,7 @@ jobs:
             gradle-version: '7.2'
       - name: Build with Gradle
         working-directory: packit-backend
-        run: cd PackIt-backend && ./gradlew clean build -x test --warning-mode all
+        run: cd packt-backend && ./gradlew clean build -x test --warning-mode all
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
