@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-     
+    
     steps:
       - name: Clone the project
         uses: actions/checkout@v4
