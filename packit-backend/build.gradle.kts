@@ -25,11 +25,8 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        freeCompilerArgs = ['-Xjsr305=strict']
-        jvmTarget = '17'
-    }
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 application {
