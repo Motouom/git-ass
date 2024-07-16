@@ -97,7 +97,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
-          context: ./packit-backend/packit-backend
+          context: ./packit-backend
           push: "${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
