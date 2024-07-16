@@ -1,8 +1,8 @@
 package com.packit.packit_backend
 
-import org.springframework.boot.Configuration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Configuration
 
 @Configuration @SpringBootApplication
 public class PackitBackendApplication {
