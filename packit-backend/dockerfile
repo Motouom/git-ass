@@ -16,7 +16,7 @@ COPY . .
 RUN gradlew clean build
 
 # Use the lightweight Distroless base image
-FROM gcr.io/distroless/java22:nonroot
+FROM gcr.io/distroless/java17:nonroot
 
 # Copy the built JAR file from the builder stage
 COPY --from=builder /app/build/libs/*.jar /app/application.jar
