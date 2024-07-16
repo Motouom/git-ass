@@ -63,11 +63,11 @@ jobs:
 
     steps:
       - name: Clone the project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 
         with:
           path: packit-backend
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4 
         with:
           name: packit-backend
           path: packit-backend/build/libs
