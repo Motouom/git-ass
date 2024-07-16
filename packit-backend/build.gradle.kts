@@ -28,7 +28,3 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
-application {
-    mainClass.set("com.packit.packit_backend.PackitBackendApplication")
-}
