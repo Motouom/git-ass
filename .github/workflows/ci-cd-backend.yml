@@ -46,7 +46,6 @@ jobs:
           name: packit-backend
           path: packit-backend/build/libs/*.jar
 
-
   docker-build:
     needs:
       - build
@@ -77,8 +76,8 @@ jobs:
       - id: lowercase_name
         uses: ASzc/change-string-case-action@v6
         with:
-          string: ${{ env.IMAGE_NAME}}
-
+          string: ${{ env.IMAGE_NAME }}
+ 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5 
