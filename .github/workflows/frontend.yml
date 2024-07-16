@@ -5,7 +5,7 @@ on:
         branches:
           - '**'
         tags-ignore:
-          - 'v*' 
+          - 'v*'
         paths:
           - 'PackIt-frontend/**'
           - '.github/workflows/frontend.yml'
@@ -21,6 +21,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}-frontend
 jobs:
   # Build Job
+  
   build:
     runs-on: ubuntu-latest
     defaults:
@@ -109,7 +110,7 @@ jobs:
         if: github.event_name != 'pull_request'
         with:
           context: ./PackIt-frontend
-          file: ./PackIt-frontend/Dockerfile
+          file:  ./PackIt-frontend/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}  
