@@ -43,16 +43,16 @@ jobs:
 
       - name: Build with Gradle
         working-directory: ./packit-backend
-        run: ./gradlew clean build -x test --warning-mode all
+        run: cd packit-backend && ./gradlew clean build -x test --warning-mode all
         
       - name: List contents of build/libs directory
-        run: ls -la
+        run: ls -la packit-backend
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: packit-backend
-          path: packit-backend/build/libs
+          path: packit-backend/packit-backend/build/libs
 
   docker-build:
     needs:
