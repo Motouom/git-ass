@@ -3,8 +3,8 @@ name: Build PackIt Backend
 on:
   push:
     branches:
-      - '**' 
-    tags-ignore: 
+      - '**'
+    tags-ignore:
       - 'v*'
     paths:
       - 'packit-backend/**'
@@ -17,12 +17,10 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Clone the project
         uses: actions/checkout@v4
-        # with:
-        #   path: packit-backend
       - name: Setup Java 17 (GraalVM)
         uses: actions/setup-java@v4
         with:
@@ -31,15 +29,16 @@ jobs:
       - name: Setup Kotlin
         uses: actions/setup-java@v4
         with:
-            distribution: 'temurin'
-            java-version: '17'
+          distribution: 'temurin'
+          java-version: '17'
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:
-            gradle-version: '7.2'
+          gradle-version: '7.2'
+      - name: Ensure gradlew is executable
+        run: chmod +x packit-backend/gradlew
       - name: Build with Gradle
-        working-directory: packit-backend
-        run: cd packit-backend &&./gradlew clean build -x test --warning-mode all
+        run: packit-backend/gradlew clean build -x test --warning-mode all
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -47,10 +46,9 @@ jobs:
           path: packit-backend/build/libs/*.jar
 
   docker-build:
-    needs:
-      - build
+    needs: build
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
       packages: write
@@ -58,13 +56,13 @@ jobs:
     steps:
       - name: Clone the project
         uses: actions/checkout@v4
-        with:
-          path: packit-backend
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: packit-backend
           path: packit-backend/build/libs
+      - name: List downloaded artifacts
+        run: ls -la packit-backend/build/libs
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -76,18 +74,18 @@ jobs:
       - id: lowercase_name
         uses: ASzc/change-string-case-action@v6
         with:
-          string: ${{ env.IMAGE_NAME}}
+          string: ${{ env.IMAGE_NAME }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5 
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ steps.lowercase_name.outputs.lowercase }}
 
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
-          context: ./packit-backend
-          push: "${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}"
+          context: packit-backend
+          push: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
