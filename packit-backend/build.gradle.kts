@@ -1,8 +1,8 @@
 plugins {
-    kotlin("jvm") version "1.5.30"
-    id("org.springframework.boot") version "2.5.4"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.graalvm.buildtools.native") version "0.9.8" // Updated version
+    kotlin("jvm") version "1.9.10" // Update Kotlin version
+    id("org.springframework.boot") version "3.1.2" // Update Spring Boot version
+    id("io.spring.dependency-management") version "1.1.0" // Update Dependency Management plugin version
+    id("org.graalvm.buildtools.native") version "0.9.20" // Update GraalVM Native Build Tools plugin version
 }
 
 group = "com.example"
@@ -19,8 +19,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.springdoc:springdoc-openapi-webflux-ui:1.5.10")
-    implementation("io.r2dbc:r2dbc-postgresql:0.8.8.RELEASE")
+    implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.15") // Update SpringDoc version
+    implementation("io.r2dbc:r2dbc-postgresql:1.0.0.RELEASE") // Update R2DBC PostgreSQL version
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 }
