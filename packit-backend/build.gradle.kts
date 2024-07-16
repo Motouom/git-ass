@@ -16,14 +16,16 @@ repositories {
 }
 
 dependencies {
+    implementation("org.codehaus.sonar-plugins:sonar-cutoff-plugin:0.2")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.15") // Update SpringDoc version
-    implementation("io.r2dbc:r2dbc-postgresql:1.0.0.RELEASE") // Update R2DBC PostgreSQL version
+    implementation("io.r2dbc:r2dbc-postgresql:0.8.8.RELEASE") // Use stable R2DBC PostgreSQL version
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 }
+
 
 tasks.withType<Test> {
     useJUnitPlatform()
