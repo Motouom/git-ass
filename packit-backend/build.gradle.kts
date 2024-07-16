@@ -1,5 +1,4 @@
 plugins {
-    application
     kotlin("jvm") version "1.9.10" // Updated Kotlin version
     id("org.springframework.boot") version "3.1.2" // Updated Spring Boot version
     id("io.spring.dependency-management") version "1.1.0" // Updated Dependency Management plugin version
@@ -28,9 +27,4 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-
-application {
-    mainClass.set("com.packit.packit_backend.PackitBackendApplication.kts")
 }
