@@ -43,7 +43,7 @@ jobs:
 
       - name: Build with Gradle
         working-directory: packit-backend
-        run: cd packit-backend && ./gradlew clean build -x test --warning-mode all
+        run: ./gradlew clean build -x test --warning-mode all
         
       - name: List contents of build/libs directory
         run: ls -la packit-backend
