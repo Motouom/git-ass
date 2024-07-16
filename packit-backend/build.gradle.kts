@@ -32,5 +32,5 @@ tasks.withType<Test> {
 
 
 application {
-    mainClass.set("com.com.packit.packit_backend.MainKt")
+    mainClass.set("com.packit.packit_backend.MainKt")
 }
