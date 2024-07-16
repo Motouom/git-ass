@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class PackitBackendApplication
 
 fun main(args: Array<String>) {
-	runApplication<PackitBackendApplication>(*args)
+    runApplication<PackitBackendApplication>(*args)
 }
