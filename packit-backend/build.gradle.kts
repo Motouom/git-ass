@@ -5,7 +5,7 @@ plugins {
     id("org.graalvm.buildtools.native") version "0.9.20" // Updated GraalVM Native Build Tools plugin version
 }
 
-group = "com.example"
+group = "com.packit"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -25,6 +25,13 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '17'
+    }
+}
+
+application {
+    mainClass.set("com.packit.packit_backend.PackitBackendApplication")
 }
