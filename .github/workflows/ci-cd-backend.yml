@@ -9,6 +9,12 @@ on:
     paths:
       - 'packit-backend/**'
       - '.github/workflows/ci-cd-backend.yml'
+  pull_request: 
+      branches:
+        - '**'
+      paths:
+        - 'PackIt-frontend/**'
+        - '.github/workflows/frontend.yml'
 
 env:
   REGISTRY: ghcr.io
