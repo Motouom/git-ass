@@ -105,12 +105,10 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ steps.string.outputs.lowercase }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        if: github.event_name != 'pull_request'
+      - name: Build and push image
+        uses: docker/build-push-action@v5
         with:
           context: ./PackIt-frontend
-          file:  ./PackIt-frontend/Dockerfile
-          push: true
+          push: "${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}"
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}  
+          labels: ${{ steps.meta.outputs.labels }}
