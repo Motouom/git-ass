@@ -13,8 +13,8 @@ on:
       branches:
         - '**'
       paths:
-        - 'PackIt-frontend/**'
-        - '.github/workflows/frontend.yml'
+      - 'packit-backend/**'
+      - '.github/workflows/ci-cd-backend.yml'
 
 env:
   REGISTRY: ghcr.io
