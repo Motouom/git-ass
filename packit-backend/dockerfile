@@ -2,7 +2,8 @@
 FROM ghcr.io/graalvm/graalvm-ce:22.3.2 AS builder
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /app 
+
 
 # Copy the Gradle wrapper
 COPY gradlew ./
